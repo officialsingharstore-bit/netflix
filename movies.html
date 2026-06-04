@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movies | CinemaX</title>
+  <meta name="description" content="Browse thousands of movies by genre, year, rating and more on CinemaX.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+</head>
+<body class="browse-page">
+
+  <!-- navbar, footer, etc injected by layout.js -->
+
+  <main>
+    <div class="page-hero">
+      <h1><i class="fas fa-film" style="color:var(--primary);margin-right:.5rem"></i>Movies</h1>
+      <p>Thousands of movies across every genre — action, drama, horror and beyond.</p>
+    </div>
+
+    <div class="filter-bar" id="filter-bar">
+      <select class="filter-select" id="filter-genre">
+        <option value="">All Genres</option>
+        <option value="28">Action</option>
+        <option value="12">Adventure</option>
+        <option value="16">Animation</option>
+        <option value="35">Comedy</option>
+        <option value="80">Crime</option>
+        <option value="99">Documentary</option>
+        <option value="18">Drama</option>
+        <option value="10751">Family</option>
+        <option value="14">Fantasy</option>
+        <option value="36">History</option>
+        <option value="27">Horror</option>
+        <option value="10402">Music</option>
+        <option value="9648">Mystery</option>
+        <option value="10749">Romance</option>
+        <option value="878">Sci-Fi</option>
+        <option value="53">Thriller</option>
+        <option value="10752">War</option>
+        <option value="37">Western</option>
+      </select>
+
+      <select class="filter-select" id="filter-year">
+        <option value="">All Years</option>
+        <option value="2026">2026</option>
+        <option value="2025">2025</option>
+        <option value="2024">2024</option>
+        <option value="2023">2023</option>
+        <option value="2022">2022</option>
+        <option value="2021">2021</option>
+        <option value="2020">2020</option>
+        <option value="2019">2019</option>
+        <option value="2018">2018</option>
+      </select>
+
+      <select class="filter-select" id="filter-rating">
+        <option value="">Any Rating</option>
+        <option value="9">9+ Rating</option>
+        <option value="8">8+ Rating</option>
+        <option value="7">7+ Rating</option>
+        <option value="6">6+ Rating</option>
+      </select>
+
+      <select class="filter-select" id="filter-lang">
+        <option value="">All Languages</option>
+        <option value="en">English</option>
+        <option value="ja">Japanese</option>
+        <option value="ko">Korean</option>
+        <option value="hi">Hindi</option>
+        <option value="es">Spanish</option>
+        <option value="fr">French</option>
+      </select>
+
+      <select class="filter-select" id="filter-sort">
+        <option value="popularity.desc">Most Popular</option>
+        <option value="vote_average.desc">Highest Rated</option>
+        <option value="release_date.desc">Newest</option>
+        <option value="revenue.desc">Box Office</option>
+      </select>
+    </div>
+
+    <div class="content-grid" id="movies-grid"></div>
+
+    <div style="display:flex;justify-content:center;padding:var(--sp-8);">
+      <button class="btn btn-secondary" id="load-more-btn">
+        <i class="fas fa-arrow-down"></i> Load More
+      </button>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initLayout } from './js/components/layout.js';
+    import tmdb from './js/api/tmdb.js';
+
+    initLayout();
+
+    let page = 1;
+    let currentFilters = {};
+
+    function buildCard(item) {
+      const type  = item.title ? 'movie' : 'tv';
+      const title = item.title || item.name;
+      const year  = (item.release_date || item.first_air_date || '').split('-')[0];
+      const img   = tmdb.getImageUrl(item.poster_path, 'w500');
+      return `
+        <div class="movie-card" role="listitem" style="cursor:pointer;width:100%;height:0;padding-bottom:150%;position:relative;"
+             onclick="window.location.href='detail.html?id=${item.id}&type=${type}'">
+          <img src="${img}" alt="${title}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" loading="lazy">
+          <div class="card-quality-badge">HD</div>
+          <div class="card-rating-badge"><i class="fas fa-star"></i>${(item.vote_average||0).toFixed(1)}</div>
+          <div class="card-info-bar" style="position:absolute;">
+            <div class="card-title">${title}</div>
+            <div class="card-meta"><span>${year}</span></div>
+          </div>
+          <div class="card-hover-overlay" style="position:absolute;">
+            <button class="card-play-btn" onclick="event.stopPropagation();window.location.href='player.html?id=${item.id}&type=${type}&title=${encodeURIComponent(title)}'">
+              <i class="fas fa-play"></i>
+            </button>
+            <div class="card-action-row">
+              <button class="card-action-btn" title="Watchlist"><i class="fas fa-plus"></i></button>
+              <button class="card-action-btn" title="Favorite"><i class="fas fa-heart"></i></button>
+              <button class="card-action-btn" title="Info" onclick="event.stopPropagation();window.location.href='detail.html?id=${item.id}&type=${type}'"><i class="fas fa-info"></i></button>
+            </div>
+            <div class="card-hover-title">${title}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function loadMovies(reset = false) {
+      if (reset) { page = 1; document.getElementById('movies-grid').innerHTML = ''; }
+      const grid = document.getElementById('movies-grid');
+      const genre  = document.getElementById('filter-genre').value;
+      const year   = document.getElementById('filter-year').value;
+      const rating = document.getElementById('filter-rating').value;
+      const lang   = document.getElementById('filter-lang').value;
+      const sort   = document.getElementById('filter-sort').value;
+
+      const params = { sort_by: sort || 'popularity.desc', page };
+      if (genre)  params.with_genres = genre;
+      if (year)   params.primary_release_year = year;
+      if (rating) params['vote_average.gte'] = rating;
+      if (lang)   params.with_original_language = lang;
+
+      const data = await tmdb.fetchFromTMDB('/discover/movie', params);
+      if (!data?.results) return;
+
+      grid.insertAdjacentHTML('beforeend', data.results.map(buildCard).join(''));
+      page++;
+    }
+
+    // Filters
+    ['filter-genre','filter-year','filter-rating','filter-lang','filter-sort'].forEach(id => {
+      document.getElementById(id)?.addEventListener('change', () => loadMovies(true));
+    });
+
+    document.getElementById('load-more-btn')?.addEventListener('click', () => loadMovies());
+
+    // Init
+    loadMovies();
+
+    // Check for genre in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('genre')) {
+      const map = {action:'28',comedy:'35',drama:'18',thriller:'53'};
+      const g = map[urlParams.get('genre')];
+      if (g) { document.getElementById('filter-genre').value = g; loadMovies(true); }
+    }
+  </script>
+</body>
+</html>

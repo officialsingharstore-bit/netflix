@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anime | CinemaX</title>
+  <meta name="description" content="Explore the best anime series and movies on CinemaX.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+</head>
+<body class="browse-page">
+  <main>
+    <div class="page-hero" style="background:linear-gradient(135deg,rgba(150,0,200,.12) 0%,transparent 60%)">
+      <h1><i class="fas fa-dragon" style="color:#a855f7;margin-right:.5rem"></i>Anime</h1>
+      <p>Japanese animation at its finest — from classics to current-season hits.</p>
+    </div>
+    <div class="filter-bar">
+      <select class="filter-select" id="filter-sort">
+        <option value="popularity.desc">Most Popular</option>
+        <option value="vote_average.desc">Top Rated</option>
+        <option value="first_air_date.desc">Newest Season</option>
+      </select>
+      <select class="filter-select" id="filter-year">
+        <option value="">All Years</option>
+        <option value="2026">2026</option><option value="2025">2025</option>
+        <option value="2024">2024</option><option value="2023">2023</option>
+        <option value="2022">2022</option><option value="2021">2021</option>
+        <option value="2020">2020</option>
+      </select>
+    </div>
+    <div class="content-grid" id="anime-grid"></div>
+    <div style="display:flex;justify-content:center;padding:var(--sp-8);">
+      <button class="btn btn-secondary" id="load-more-btn"><i class="fas fa-arrow-down"></i> Load More</button>
+    </div>
+  </main>
+  <script type="module">
+    import { initLayout } from './js/components/layout.js';
+    import tmdb from './js/api/tmdb.js';
+    initLayout();
+    let page = 1;
+    function buildCard(item) {
+      const title = item.name || item.title;
+      const img   = tmdb.getImageUrl(item.poster_path, 'w500');
+      const year  = (item.first_air_date || item.release_date || '').split('-')[0];
+      return `
+        <div class="movie-card" style="cursor:pointer;width:100%;height:0;padding-bottom:150%;position:relative;"
+             onclick="window.location.href='detail.html?id=${item.id}&type=tv'">
+          <img src="${img}" alt="${title}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" loading="lazy">
+          <div class="card-quality-badge">HD</div>
+          <div class="card-rating-badge"><i class="fas fa-star"></i>${(item.vote_average||0).toFixed(1)}</div>
+          <div class="card-info-bar" style="position:absolute;">
+            <div class="card-title">${title}</div>
+            <div class="card-meta"><span>${year}</span></div>
+          </div>
+          <div class="card-hover-overlay" style="position:absolute;">
+            <button class="card-play-btn" onclick="event.stopPropagation();window.location.href='player.html?id=${item.id}&type=tv&title=${encodeURIComponent(title)}'"><i class="fas fa-play"></i></button>
+            <div class="card-action-row">
+              <button class="card-action-btn" title="Watchlist"><i class="fas fa-plus"></i></button>
+              <button class="card-action-btn" title="Favorite"><i class="fas fa-heart"></i></button>
+              <button class="card-action-btn" title="Info" onclick="event.stopPropagation();window.location.href='detail.html?id=${item.id}&type=tv'"><i class="fas fa-info"></i></button>
+            </div>
+            <div class="card-hover-title">${title}</div>
+          </div>
+        </div>`;
+    }
+    async function loadAnime(reset=false) {
+      if(reset){page=1;document.getElementById('anime-grid').innerHTML='';}
+      const sort = document.getElementById('filter-sort').value;
+      const year = document.getElementById('filter-year').value;
+      const params = {
+        sort_by: sort||'popularity.desc',
+        with_genres: '16',
+        with_original_language: 'ja',
+        page
+      };
+      if(year) params.first_air_date_year = year;
+      const data = await tmdb.fetchFromTMDB('/discover/tv', params);
+      if(!data?.results) return;
+      document.getElementById('anime-grid').insertAdjacentHTML('beforeend', data.results.map(buildCard).join(''));
+      page++;
+    }
+    ['filter-sort','filter-year'].forEach(id=>{
+      document.getElementById(id)?.addEventListener('change',()=>loadAnime(true));
+    });
+    document.getElementById('load-more-btn')?.addEventListener('click',()=>loadAnime());
+    loadAnime();
+  </script>
+</body>
+</html>

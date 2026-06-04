@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Releases | CinemaX</title>
+  <meta name="description" content="The latest movie and TV releases available to stream now on CinemaX.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+</head>
+<body class="browse-page">
+  <main>
+    <div class="page-hero" style="background:linear-gradient(135deg,rgba(70,211,105,.1) 0%,transparent 60%)">
+      <h1><i class="fas fa-bolt" style="color:var(--success);margin-right:.5rem"></i>New Releases</h1>
+      <p>Fresh off the press — movies and shows just added to CinemaX this week.</p>
+    </div>
+
+    <div class="trending-tabs">
+      <button class="trending-tab active" data-section="now_playing">Now Playing</button>
+      <button class="trending-tab" data-section="upcoming">Coming Soon</button>
+      <button class="trending-tab" data-section="on_the_air">On TV Now</button>
+    </div>
+
+    <div class="content-grid" id="new-grid"></div>
+
+    <div style="display:flex;justify-content:center;padding:var(--sp-8);">
+      <button class="btn btn-secondary" id="load-more-btn"><i class="fas fa-arrow-down"></i> Load More</button>
+    </div>
+  </main>
+  <script type="module">
+    import { initLayout } from './js/components/layout.js';
+    import tmdb from './js/api/tmdb.js';
+    initLayout();
+    let page=1, currentSection='now_playing';
+    const endpoints = {
+      now_playing: '/movie/now_playing',
+      upcoming:    '/movie/upcoming',
+      on_the_air:  '/tv/on_the_air'
+    };
+    const types = { now_playing:'movie', upcoming:'movie', on_the_air:'tv' };
+    function buildCard(item, type) {
+      const title = item.title || item.name;
+      const img   = tmdb.getImageUrl(item.poster_path, 'w500');
+      const year  = (item.release_date||item.first_air_date||'').split('-')[0];
+      return `
+        <div class="movie-card" style="cursor:pointer;width:100%;height:0;padding-bottom:150%;position:relative;"
+             onclick="window.location.href='detail.html?id=${item.id}&type=${type}'">
+          <img src="${img}" alt="${title}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" loading="lazy">
+          <div class="card-quality-badge" style="background:var(--success)">NEW</div>
+          <div class="card-rating-badge"><i class="fas fa-star"></i>${(item.vote_average||0).toFixed(1)}</div>
+          <div class="card-info-bar" style="position:absolute;">
+            <div class="card-title">${title}</div>
+            <div class="card-meta"><span>${year}</span></div>
+          </div>
+          <div class="card-hover-overlay" style="position:absolute;">
+            <button class="card-play-btn" onclick="event.stopPropagation();window.location.href='player.html?id=${item.id}&type=${type}&title=${encodeURIComponent(title)}'"><i class="fas fa-play"></i></button>
+            <div class="card-action-row">
+              <button class="card-action-btn" title="Watchlist"><i class="fas fa-plus"></i></button>
+              <button class="card-action-btn" title="Favorite"><i class="fas fa-heart"></i></button>
+              <button class="card-action-btn" title="Info" onclick="event.stopPropagation();window.location.href='detail.html?id=${item.id}&type=${type}'"><i class="fas fa-info"></i></button>
+            </div>
+            <div class="card-hover-title">${title}</div>
+          </div>
+        </div>`;
+    }
+    async function load(reset=false) {
+      if(reset){page=1;document.getElementById('new-grid').innerHTML='';}
+      const data = await tmdb.fetchFromTMDB(endpoints[currentSection], {page});
+      if(!data?.results) return;
+      const type = types[currentSection];
+      document.getElementById('new-grid').insertAdjacentHTML('beforeend', data.results.map(i=>buildCard(i,type)).join(''));
+      page++;
+    }
+    document.querySelectorAll('[data-section]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        currentSection=btn.dataset.section;
+        document.querySelectorAll('[data-section]').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        load(true);
+      });
+    });
+    document.getElementById('load-more-btn')?.addEventListener('click',()=>load());
+    load();
+  </script>
+</body>
+</html>

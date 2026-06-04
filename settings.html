@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings | CinemaX</title>
+  <meta name="description" content="Manage your CinemaX account settings, notifications and playback preferences.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+</head>
+<body class="settings-page">
+  <main>
+    <div style="padding:var(--sp-8) var(--page-x) var(--sp-6);border-bottom:1px solid var(--border);margin-bottom:var(--sp-6);">
+      <h1 style="font-size:clamp(1.6rem,3vw,2.2rem)"><i class="fas fa-gear" style="color:var(--primary);margin-right:.5rem"></i>Settings</h1>
+      <p style="color:var(--text-secondary);margin-top:var(--sp-2)">Manage your account and preferences.</p>
+    </div>
+
+    <div class="settings-layout">
+      <aside class="settings-sidebar">
+        <nav class="settings-nav">
+          <a href="#" class="active" data-panel="account"><i class="fas fa-user"></i> Account</a>
+          <a href="#" data-panel="playback"><i class="fas fa-sliders"></i> Playback</a>
+          <a href="#" data-panel="notifications"><i class="fas fa-bell"></i> Notifications</a>
+          <a href="#" data-panel="privacy"><i class="fas fa-shield"></i> Privacy</a>
+          <a href="#" data-panel="language"><i class="fas fa-globe"></i> Language & Region</a>
+          <a href="#" data-panel="danger"><i class="fas fa-triangle-exclamation"></i> Account Actions</a>
+        </nav>
+      </aside>
+
+      <div class="settings-panels">
+
+        <!-- Account -->
+        <section id="panel-account">
+          <div class="settings-group">
+            <h3>Profile Information</h3>
+            <div class="setting-item">
+              <div><div class="setting-label">Display Name</div><div class="setting-desc" id="s-name">Guest</div></div>
+              <button class="btn btn-secondary btn-sm">Edit</button>
+            </div>
+            <div class="setting-item">
+              <div><div class="setting-label">Email Address</div><div class="setting-desc" id="s-email">Not signed in</div></div>
+              <button class="btn btn-secondary btn-sm">Change</button>
+            </div>
+            <div class="setting-item">
+              <div><div class="setting-label">Profile Photo</div><div class="setting-desc">Update your avatar image</div></div>
+              <button class="btn btn-secondary btn-sm">Upload</button>
+            </div>
+          </div>
+          <div class="settings-group">
+            <h3>Password & Security</h3>
+            <div class="setting-item">
+              <div><div class="setting-label">Password</div><div class="setting-desc">Last changed never</div></div>
+              <button class="btn btn-secondary btn-sm">Change</button>
+            </div>
+            <div class="setting-item">
+              <div><div class="setting-label">Two-Factor Authentication</div><div class="setting-desc">Add extra security to your account</div></div>
+              <label class="toggle-switch">
+                <input type="checkbox">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <!-- Playback -->
+        <section id="panel-playback" style="display:none">
+          <div class="settings-group">
+            <h3>Video Quality</h3>
+            <div class="setting-item">
+              <div><div class="setting-label">Default Quality</div><div class="setting-desc">Choose streaming resolution</div></div>
+              <select class="filter-select" style="border-radius:var(--r-sm)">
+                <option>Auto</option>
+                <option>4K Ultra HD</option>
+                <option selected>1080p Full HD</option>
+                <option>720p HD</option>
+                <option>480p SD</option>
+              </select>
+            </div>
+            <div class="setting-item">
+              <div><div class="setting-label">Data Saver Mode</div><div class="setting-desc">Reduce video quality to save data</div></div>
+              <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+            </div>
+          </div>
+          <div class="settings-group">
+            <h3>Playback Behaviour</h3>
+            <div class="setting-item">
+              <div><div class="setting-label">Autoplay Next Episode</div><div class="setting-desc">Automatically start the next episode</div></div>
+              <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="setting-item">
+              <div><div class="setting-label">Skip Intro</div><div class="setting-desc">Automatically skip introduction sequences</div></div>
+              <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="setting-item">
+              <div><div class="setting-label">Playback Speed</div><div class="setting-desc">Default speed for all videos</div></div>
+              <select class="filter-select" style="border-radius:var(--r-sm)">
+                <option>0.75×</option>
+                <option selected>1×</option>
+                <option>1.25×</option>
+                <option>1.5×</option>
+                <option>2×</option>
+              </select>
+            </div>
+          </div>
+          <div class="settings-group">
+            <h3>Subtitles</h3>
+            <div class="setting-item">
+              <div><div class="setting-label">Default Subtitle Language</div><div class="setting-desc">Language for all subtitles</div></div>
+              <select class="filter-select" style="border-radius:var(--r-sm)">
+                <option>Off</option>
+                <option>English</option>
+                <option>Spanish</option>
+                <option>French</option>
+                <option>Arabic</option>
+                <option>Hindi</option>
+              </select>
+            </div>
+            <div class="setting-item">
+              <div><div class="setting-label">Subtitle Size</div><div class="setting-desc">Adjust subtitle text size</div></div>
+              <select class="filter-select" style="border-radius:var(--r-sm)">
+                <option>Small</option>
+                <option selected>Medium</option>
+                <option>Large</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <!-- Notifications -->
+        <section id="panel-notifications" style="display:none">
+          <div class="settings-group">
+            <h3>Email Notifications</h3>
+            <div class="setting-item">
+              <div><div class="setting-label">New Releases</div><div class="setting-desc">Get notified when new content drops</div></div>
+              <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="setting-item">
+              <div><div class="setting-label">Recommendations</div><div class="setting-desc">Personalised content recommendations</div></div>
+              <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="setting-item">
+              <div><div class="setting-label">Promotions</div><div class="setting-desc">Special offers and announcements</div></div>
+              <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+            </div>
+          </div>
+          <div class="settings-group">
+            <h3>Push Notifications</h3>
+            <div class="setting-item">
+              <div><div class="setting-label">Browser Notifications</div><div class="setting-desc">Receive notifications in your browser</div></div>
+              <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+            </div>
+            <div class="setting-item">
+              <div><div class="setting-label">Watchlist Reminders</div><div class="setting-desc">Be reminded about titles in your list</div></div>
+              <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+          </div>
+        </section>
+
+        <!-- Privacy -->
+        <section id="panel-privacy" style="display:none">
+          <div class="settings-group">
+            <h3>Privacy Controls</h3>
+            <div class="setting-item">
+              <div><div class="setting-label">Watch History</div><div class="setting-desc">Save your viewing history</div></div>
+              <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="setting-item">
+              <div><div class="setting-label">Usage Analytics</div><div class="setting-desc">Help improve CinemaX with anonymous data</div></div>
+              <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="setting-item">
+              <div><div class="setting-label">Personalisation</div><div class="setting-desc">Allow recommendations based on activity</div></div>
+              <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+          </div>
+          <div class="settings-group">
+            <h3>Data</h3>
+            <div class="setting-item" style="flex-direction:column;align-items:flex-start;gap:var(--sp-3)">
+              <div><div class="setting-label">Download My Data</div><div class="setting-desc">Request an export of all your CinemaX data</div></div>
+              <button class="btn btn-secondary btn-sm">Request Export</button>
+            </div>
+            <div class="setting-item" style="flex-direction:column;align-items:flex-start;gap:var(--sp-3)">
+              <div><div class="setting-label">Clear Watch History</div><div class="setting-desc">Remove all watched titles from your history</div></div>
+              <button class="btn btn-secondary btn-sm" style="border-color:rgba(229,9,20,.4);color:var(--primary)">Clear History</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Language -->
+        <section id="panel-language" style="display:none">
+          <div class="settings-group">
+            <h3>Language & Region</h3>
+            <div class="setting-item">
+              <div><div class="setting-label">Display Language</div><div class="setting-desc">Interface language</div></div>
+              <select class="filter-select" style="border-radius:var(--r-sm)">
+                <option selected>English</option>
+                <option>Español</option>
+                <option>Français</option>
+                <option>Deutsch</option>
+                <option>日本語</option>
+                <option>한국어</option>
+                <option>हिन्दी</option>
+                <option>العربية</option>
+              </select>
+            </div>
+            <div class="setting-item">
+              <div><div class="setting-label">Content Region</div><div class="setting-desc">Region used for content availability</div></div>
+              <select class="filter-select" style="border-radius:var(--r-sm)">
+                <option selected>United States</option>
+                <option>United Kingdom</option>
+                <option>India</option>
+                <option>Japan</option>
+                <option>South Korea</option>
+                <option>France</option>
+                <option>Germany</option>
+              </select>
+            </div>
+            <div class="setting-item">
+              <div><div class="setting-label">Content Language Preference</div><div class="setting-desc">Show content in this language when available</div></div>
+              <select class="filter-select" style="border-radius:var(--r-sm)">
+                <option selected>English</option>
+                <option>Japanese</option>
+                <option>Korean</option>
+                <option>Spanish</option>
+                <option>Hindi</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <!-- Danger Zone -->
+        <section id="panel-danger" style="display:none">
+          <div class="settings-group">
+            <h3>Account Actions</h3>
+            <div class="setting-item" style="flex-direction:column;align-items:flex-start;gap:var(--sp-3);background:rgba(229,9,20,.05);border:1px solid rgba(229,9,20,.2);border-radius:var(--r-lg);padding:var(--sp-5)">
+              <div>
+                <div class="setting-label" style="color:var(--primary)">Sign Out</div>
+                <div class="setting-desc">Sign out of your CinemaX account on this device</div>
+              </div>
+              <button class="btn btn-secondary btn-sm" id="settings-logout" style="border-color:rgba(229,9,20,.5);color:var(--primary)">
+                <i class="fas fa-right-from-bracket"></i> Sign Out
+              </button>
+            </div>
+            <div class="setting-item" style="flex-direction:column;align-items:flex-start;gap:var(--sp-3);background:rgba(229,9,20,.05);border:1px solid rgba(229,9,20,.2);border-radius:var(--r-lg);padding:var(--sp-5);margin-top:var(--sp-4)">
+              <div>
+                <div class="setting-label" style="color:var(--primary)">Delete Account</div>
+                <div class="setting-desc">Permanently delete your account and all data. This action cannot be undone.</div>
+              </div>
+              <button class="btn btn-primary btn-sm" style="background:rgba(200,0,0,0.8)">
+                <i class="fas fa-trash"></i> Delete Account
+              </button>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /settings-panels -->
+    </div><!-- /settings-layout -->
+  </main>
+
+  <script type="module">
+    import { initLayout } from './js/components/layout.js';
+    import { auth, onAuthStateChanged, signOut } from './js/api/firebase.js';
+    initLayout();
+
+    onAuthStateChanged(auth, user => {
+      if(user) {
+        document.getElementById('s-name').textContent  = user.displayName || 'User';
+        document.getElementById('s-email').textContent = user.email || '';
+      }
+    });
+
+    // Sidebar nav
+    document.querySelectorAll('.settings-nav a[data-panel]').forEach(link=>{
+      link.addEventListener('click', e=>{
+        e.preventDefault();
+        document.querySelectorAll('.settings-nav a').forEach(a=>a.classList.remove('active'));
+        link.classList.add('active');
+        document.querySelectorAll('[id^="panel-"]').forEach(s=>s.style.display='none');
+        const t = document.getElementById(`panel-${link.dataset.panel}`);
+        if(t) t.style.display='';
+      });
+    });
+
+    // Sign out
+    document.getElementById('settings-logout')?.addEventListener('click', async ()=>{
+      try { await signOut(auth); window.location.href='index.html'; }
+      catch(e){ console.error(e); }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trending | CinemaX</title>
+  <meta name="description" content="What's trending today and this week on CinemaX.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+</head>
+<body class="browse-page">
+  <main>
+    <div class="page-hero" style="background:linear-gradient(135deg,rgba(229,9,20,.12) 0%,transparent 60%)">
+      <h1><i class="fas fa-fire" style="color:var(--primary);margin-right:.5rem"></i>Trending Now</h1>
+      <p>The most-watched titles on CinemaX right now. Updated daily.</p>
+    </div>
+
+    <div class="trending-tabs" id="trending-tabs">
+      <button class="trending-tab active" data-window="day">Today</button>
+      <button class="trending-tab" data-window="week">This Week</button>
+      <button class="trending-tab" data-type="movie" data-active-type="movie">Movies Only</button>
+      <button class="trending-tab" data-type="tv"    data-active-type="tv">TV Only</button>
+    </div>
+
+    <div class="content-grid" id="trending-grid"></div>
+
+    <div style="display:flex;justify-content:center;padding:var(--sp-8);">
+      <button class="btn btn-secondary" id="load-more-btn"><i class="fas fa-arrow-down"></i> Load More</button>
+    </div>
+  </main>
+  <script type="module">
+    import { initLayout } from './js/components/layout.js';
+    import tmdb from './js/api/tmdb.js';
+    initLayout();
+    let page=1, currentWindow='day', currentType='all';
+    function buildCard(item) {
+      const type  = item.title ? 'movie' : 'tv';
+      const title = item.title || item.name;
+      const img   = tmdb.getImageUrl(item.poster_path, 'w500');
+      const year  = (item.release_date||item.first_air_date||'').split('-')[0];
+      return `
+        <div class="movie-card" style="cursor:pointer;width:100%;height:0;padding-bottom:150%;position:relative;"
+             onclick="window.location.href='detail.html?id=${item.id}&type=${type}'">
+          <img src="${img}" alt="${title}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" loading="lazy">
+          <div class="card-quality-badge">HD</div>
+          <div class="card-rating-badge"><i class="fas fa-star"></i>${(item.vote_average||0).toFixed(1)}</div>
+          <div class="card-info-bar" style="position:absolute;">
+            <div class="card-title">${title}</div>
+            <div class="card-meta"><span>${year}</span></div>
+          </div>
+          <div class="card-hover-overlay" style="position:absolute;">
+            <button class="card-play-btn" onclick="event.stopPropagation();window.location.href='player.html?id=${item.id}&type=${type}&title=${encodeURIComponent(title)}'"><i class="fas fa-play"></i></button>
+            <div class="card-action-row">
+              <button class="card-action-btn" title="Watchlist"><i class="fas fa-plus"></i></button>
+              <button class="card-action-btn" title="Favorite"><i class="fas fa-heart"></i></button>
+              <button class="card-action-btn" title="Info" onclick="event.stopPropagation();window.location.href='detail.html?id=${item.id}&type=${type}'"><i class="fas fa-info"></i></button>
+            </div>
+            <div class="card-hover-title">${title}</div>
+          </div>
+        </div>`;
+    }
+    async function load(reset=false) {
+      if(reset){page=1;document.getElementById('trending-grid').innerHTML='';}
+      const data = await tmdb.fetchFromTMDB(`/trending/${currentType}/${currentWindow}`, {page});
+      if(!data?.results) return;
+      document.getElementById('trending-grid').insertAdjacentHTML('beforeend', data.results.map(buildCard).join(''));
+      page++;
+    }
+    document.querySelectorAll('[data-window]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        currentWindow = btn.dataset.window;
+        document.querySelectorAll('[data-window]').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        load(true);
+      });
+    });
+    document.querySelectorAll('[data-active-type]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        currentType = btn.dataset.activeType;
+        document.querySelectorAll('[data-active-type]').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        load(true);
+      });
+    });
+    document.getElementById('load-more-btn')?.addEventListener('click',()=>load());
+    load();
+  </script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CinemaX — Premium Streaming Discovery</title>
+  <meta name="description" content="Discover movies, TV shows, and anime with CinemaX. The ultimate premium streaming discovery platform powered by TMDB.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+</head>
+<body>
+
+  <!-- layout.js injects: navbar, drawer, search overlay, footer, bottom nav -->
+
+  <main id="main-content">
+
+    <!-- ── Hero Section ──────────────────────────────── -->
+    <section class="hero" id="hero" aria-label="Featured content">
+      <img src="" alt="" class="hero-backdrop" id="hero-backdrop" loading="eager">
+      <div class="hero-gradient"></div>
+
+      <div class="hero-content" id="hero-content">
+        <div class="hero-badge">
+          <i class="fas fa-fire"></i>
+          <span>Trending Now</span>
+        </div>
+        <h1 class="hero-title" id="hero-title">Loading…</h1>
+        <div class="hero-meta" id="hero-meta">
+          <span class="badge badge-rating" id="hero-rating">–</span>
+          <span class="sep">•</span>
+          <span id="hero-year">–</span>
+          <span class="sep">•</span>
+          <span class="badge badge-quality">HD</span>
+          <span class="sep">•</span>
+          <span id="hero-genres" style="color:var(--text-secondary)">–</span>
+        </div>
+        <p class="hero-overview" id="hero-overview">Fetching the most cinematic stories from across the universe…</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-lg" id="hero-play-btn">
+            <i class="fas fa-play"></i> Watch Now
+          </button>
+          <button class="btn btn-secondary btn-lg" id="hero-trailer-btn">
+            <i class="fas fa-play-circle"></i> Trailer
+          </button>
+          <button class="btn btn-secondary btn-lg" id="hero-watchlist-btn">
+            <i class="fas fa-plus"></i> My List
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-indicators" id="hero-indicators"></div>
+    </section>
+
+    <!-- ── Provider Filters ───────────────────────────── -->
+    <section class="provider-section" id="providers" aria-label="Filter by streaming provider">
+      <div class="provider-scroll" id="provider-scroll">
+        <button class="provider-btn active" data-provider="all">All Content</button>
+        <button class="provider-btn" data-provider="netflix">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix" style="height:14px;"> Netflix
+        </button>
+        <button class="provider-btn" data-provider="prime">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Amazon_Prime_Video_logo.svg" alt="Prime" style="height:14px;"> Prime Video
+        </button>
+        <button class="provider-btn" data-provider="disney">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg" alt="Disney+" style="height:14px;"> Disney+
+        </button>
+        <button class="provider-btn" data-provider="apple">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/2/28/Apple_TV_Plus_Logo.svg" alt="Apple TV+" style="height:14px;"> Apple TV+
+        </button>
+        <button class="provider-btn" data-provider="hbo">HBO Max</button>
+        <button class="provider-btn" data-provider="paramount">Paramount+</button>
+        <button class="provider-btn" data-provider="hulu">Hulu</button>
+      </div>
+    </section>
+
+    <!-- ── Content Rows ───────────────────────────────── -->
+
+    <!-- Trending Movies -->
+    <section class="content-section" id="section-trending">
+      <div class="section-header">
+        <h2 class="section-title"><span></span>Trending Movies</h2>
+        <a href="movies.html" class="section-see-all">See All <i class="fas fa-chevron-right"></i></a>
+      </div>
+      <div class="row-wrapper">
+        <button class="row-arrow left"  aria-label="Scroll left"  data-row="trendingMovies"><i class="fas fa-chevron-left"></i></button>
+        <div class="movie-row" id="trendingMovies" role="list"></div>
+        <button class="row-arrow right" aria-label="Scroll right" data-row="trendingMovies"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </section>
+
+    <!-- Top Rated TV -->
+    <section class="content-section" id="section-tv">
+      <div class="section-header">
+        <h2 class="section-title"><span></span>Top Rated TV Shows</h2>
+        <a href="tvshows.html" class="section-see-all">See All <i class="fas fa-chevron-right"></i></a>
+      </div>
+      <div class="row-wrapper">
+        <button class="row-arrow left"  aria-label="Scroll left"  data-row="topRatedTV"><i class="fas fa-chevron-left"></i></button>
+        <div class="movie-row" id="topRatedTV" role="list"></div>
+        <button class="row-arrow right" aria-label="Scroll right" data-row="topRatedTV"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </section>
+
+    <!-- Popular Movies -->
+    <section class="content-section" id="section-popular">
+      <div class="section-header">
+        <h2 class="section-title"><span></span>Popular Movies</h2>
+        <a href="movies.html" class="section-see-all">See All <i class="fas fa-chevron-right"></i></a>
+      </div>
+      <div class="row-wrapper">
+        <button class="row-arrow left"  aria-label="Scroll left"  data-row="popularMovies"><i class="fas fa-chevron-left"></i></button>
+        <div class="movie-row" id="popularMovies" role="list"></div>
+        <button class="row-arrow right" aria-label="Scroll right" data-row="popularMovies"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </section>
+
+    <!-- Anime Series -->
+    <section class="content-section" id="section-anime">
+      <div class="section-header">
+        <h2 class="section-title"><span></span>Anime Series</h2>
+        <a href="anime.html" class="section-see-all">See All <i class="fas fa-chevron-right"></i></a>
+      </div>
+      <div class="row-wrapper">
+        <button class="row-arrow left"  aria-label="Scroll left"  data-row="animeSeries"><i class="fas fa-chevron-left"></i></button>
+        <div class="movie-row" id="animeSeries" role="list"></div>
+        <button class="row-arrow right" aria-label="Scroll right" data-row="animeSeries"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </section>
+
+    <!-- Upcoming Titles -->
+    <section class="content-section" id="section-upcoming">
+      <div class="section-header">
+        <h2 class="section-title"><span></span>Upcoming Titles</h2>
+        <a href="new-releases.html" class="section-see-all">See All <i class="fas fa-chevron-right"></i></a>
+      </div>
+      <div class="row-wrapper">
+        <button class="row-arrow left"  aria-label="Scroll left"  data-row="upcomingMovies"><i class="fas fa-chevron-left"></i></button>
+        <div class="movie-row" id="upcomingMovies" role="list"></div>
+        <button class="row-arrow right" aria-label="Scroll right" data-row="upcomingMovies"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Scripts -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

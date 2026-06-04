@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Title Details | CinemaX</title>
+  <meta name="description" content="Watch this title on CinemaX — cast, episodes, reviews and more.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+</head>
+<body class="detail-page">
+
+  <!-- layout.js injects navbar, drawer, search, footer, bottom nav -->
+
+  <main id="detail-main">
+
+    <!-- ── Hero ──────────────────────────────────────── -->
+    <section class="detail-hero" id="detail-hero">
+      <img src="" alt="" class="hero-backdrop" id="backdrop" loading="eager">
+      <div class="hero-gradient"></div>
+
+      <div class="detail-hero-content">
+        <img src="" alt="" class="detail-poster" id="poster" loading="lazy">
+
+        <div class="detail-meta-col">
+          <h1 class="detail-title" id="title-name">Loading…</h1>
+
+          <div class="detail-meta-row" id="detail-meta">
+            <span class="badge badge-rating" id="vote-average">–</span>
+            <span class="badge badge-quality">4K HDR</span>
+            <span class="badge badge-type" id="content-type">Movie</span>
+            <span style="color:var(--text-secondary);font-size:0.85rem" id="release-year">–</span>
+            <span style="color:var(--text-secondary);font-size:0.85rem" id="runtime">–</span>
+          </div>
+
+          <div style="color:var(--text-secondary);font-size:0.82rem;margin-bottom:var(--sp-5);" id="genres">–</div>
+
+          <p class="detail-overview" id="overview">–</p>
+
+          <div class="detail-actions">
+            <button class="btn btn-primary btn-lg" id="play-btn">
+              <i class="fas fa-play"></i> Watch Now
+            </button>
+            <button class="btn btn-secondary btn-lg" id="trailer-btn">
+              <i class="fas fa-video"></i> Trailer
+            </button>
+            <button class="btn btn-secondary" id="watchlist-btn">
+              <i class="fas fa-plus"></i> My List
+            </button>
+            <button class="btn btn-secondary" id="favorite-btn">
+              <i class="fas fa-heart"></i>
+            </button>
+            <button class="btn btn-secondary" id="share-btn">
+              <i class="fas fa-share-nodes"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Tabs ───────────────────────────────────────── -->
+    <div class="detail-content" style="padding-top:var(--sp-6);">
+
+      <div class="detail-tabs" role="tablist" id="detail-tabs">
+        <button class="detail-tab-btn active" data-tab="episodes" role="tab" id="tab-episodes">
+          <i class="fas fa-list"></i> Episodes
+        </button>
+        <button class="detail-tab-btn" data-tab="cast" role="tab" id="tab-cast">
+          <i class="fas fa-users"></i> Cast
+        </button>
+        <button class="detail-tab-btn" data-tab="reviews" role="tab" id="tab-reviews">
+          <i class="fas fa-star"></i> Reviews
+        </button>
+        <button class="detail-tab-btn" data-tab="similar" role="tab" id="tab-similar">
+          <i class="fas fa-film"></i> Similar
+        </button>
+      </div>
+
+      <!-- Episodes / Seasons Tab -->
+      <div class="tab-pane active" id="tab-pane-episodes" role="tabpanel">
+        <div id="season-section" style="display:none;">
+          <div class="season-pills" id="season-pills"></div>
+          <div class="episode-grid" id="episode-grid"></div>
+        </div>
+        <div id="movie-info-tab" style="display:none;">
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:var(--sp-4);margin-bottom:var(--sp-6);">
+            <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--sp-5);">
+              <div style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:var(--sp-2)">Director</div>
+              <div style="font-weight:600" id="director">–</div>
+            </div>
+            <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--sp-5);">
+              <div style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:var(--sp-2)">Status</div>
+              <div style="font-weight:600" id="status">Released</div>
+            </div>
+            <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--sp-5);">
+              <div style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:var(--sp-2)">Runtime</div>
+              <div style="font-weight:600" id="runtime-info">–</div>
+            </div>
+            <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--sp-5);">
+              <div style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:var(--sp-2)">Language</div>
+              <div style="font-weight:600" id="language">–</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cast Tab -->
+      <div class="tab-pane" id="tab-pane-cast" role="tabpanel">
+        <div class="cast-row" id="cast-grid"></div>
+      </div>
+
+      <!-- Reviews Tab -->
+      <div class="tab-pane" id="tab-pane-reviews" role="tabpanel">
+        <div id="review-list" style="margin-bottom:var(--sp-6);"></div>
+        <div class="add-review" id="add-review-section">
+          <h4>Write a Review</h4>
+          <textarea id="review-text" class="form-input form-textarea" placeholder="Share your thoughts about this title…"></textarea>
+          <button class="btn btn-primary" id="submit-review-btn">
+            <i class="fas fa-paper-plane"></i> Post Review
+          </button>
+        </div>
+      </div>
+
+      <!-- Similar Tab -->
+      <div class="tab-pane" id="tab-pane-similar" role="tabpanel">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:var(--sp-4);" id="similar-grid"></div>
+      </div>
+
+    </div><!-- /detail-content -->
+
+  </main><!-- /detail-main -->
+
+  <script type="module" src="js/pages/detail.js"></script>
+</body>
+</html>

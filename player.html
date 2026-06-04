@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Now Playing | CinemaX</title>
+  <meta name="description" content="Watch movies and TV shows on CinemaX streaming player.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+  <style>
+    body { padding-bottom: 0 !important; overflow: hidden; }
+    .player-quality-select {
+      appearance: none;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px;
+      color: #fff;
+      padding: 4px 24px 4px 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%23aaa' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 6px center;
+    }
+    .player-quality-select option { background: #111; }
+    .subtitle-btn.active { color: var(--primary); }
+    @media (max-width: 768px) {
+      .player-topbar { flex-wrap: wrap; gap: 8px; }
+    }
+  </style>
+</head>
+<body class="player-page">
+
+  <div class="player-topbar" id="player-topbar">
+    <button class="player-back" id="player-back" onclick="history.back()">
+      <i class="fas fa-arrow-left"></i> Back
+    </button>
+
+    <div class="player-info">
+      <div class="player-title" id="player-title">Loading…</div>
+      <div class="player-ep"   id="player-ep"></div>
+    </div>
+
+    <div class="server-tabs" id="server-tabs">
+      <button class="server-tab active" data-server="1">Server 1</button>
+      <button class="server-tab" data-server="2">Server 2</button>
+      <button class="server-tab" data-server="3">Server 3</button>
+    </div>
+
+    <div class="player-actions">
+      <select class="player-quality-select" id="quality-select" title="Video Quality">
+        <option value="auto">Auto</option>
+        <option value="1080p">1080p HD</option>
+        <option value="720p">720p</option>
+        <option value="480p">480p</option>
+        <option value="360p">360p</option>
+      </select>
+
+      <button class="btn-icon subtitle-btn" id="subtitle-btn" title="Subtitles">
+        <i class="fas fa-closed-captioning"></i>
+      </button>
+
+      <button class="btn-icon" id="theater-btn" title="Theater Mode">
+        <i class="fas fa-expand-wide"></i>
+      </button>
+
+      <button class="btn-icon" id="fullscreen-btn" title="Fullscreen">
+        <i class="fas fa-expand"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="player-frame-wrap" id="player-frame-wrap">
+    <div class="player-click-start" id="player-click-start">
+      <div class="big-play" id="big-play-btn">
+        <i class="fas fa-play"></i>
+      </div>
+      <p>Tap to Play</p>
+      <p style="font-size:0.75rem;color:var(--text-muted);margin-top:-12px">Select a server above if this one doesn't work</p>
+    </div>
+    <iframe id="player-iframe"
+            src=""
+            frameborder="0"
+            allow="autoplay; fullscreen; encrypted-media"
+            allowfullscreen
+            style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe>
+  </div>
+
+  <script type="module">
+    import { initLayout } from './js/components/layout.js';
+    initLayout();
+
+    const params   = new URLSearchParams(window.location.search);
+    const id       = params.get('id');
+    const type     = params.get('type') || 'movie';
+    const season   = params.get('season') || 1;
+    const episode  = params.get('episode') || 1;
+    const titleParam = params.get('title') || 'Now Playing';
+
+    // Set title display
+    document.getElementById('player-title').textContent = decodeURIComponent(titleParam);
+    document.title = `${decodeURIComponent(titleParam)} | CinemaX Player`;
+
+    if (type === 'tv') {
+      document.getElementById('player-ep').textContent = `Season ${season} · Episode ${episode}`;
+    }
+
+    // Server URLs
+    const servers = {
+      '1': type === 'movie'
+        ? `https://vidsrc.me/embed/movie?tmdb=${id}`
+        : `https://vidsrc.me/embed/tv?tmdb=${id}&sea=${season}&epi=${episode}`,
+      '2': type === 'movie'
+        ? `https://vidsrc.in/embed/movie/${id}`
+        : `https://vidsrc.in/embed/tv/${id}/${season}/${episode}`,
+      '3': `https://vidsrc.pm/embed/${type}/${id}`
+    };
+
+    let currentServer = '1';
+    const iframe = document.getElementById('player-iframe');
+    const clickStart = document.getElementById('player-click-start');
+
+    function loadServer(num) {
+      currentServer = String(num);
+      clickStart.style.display = 'flex';
+      iframe.src = '';
+      document.querySelectorAll('.server-tab').forEach(t => t.classList.toggle('active', t.dataset.server === currentServer));
+    }
+
+    // Tap to play
+    document.getElementById('big-play-btn').addEventListener('click', () => {
+      iframe.src = servers[currentServer];
+      clickStart.style.display = 'none';
+    });
+    document.getElementById('player-click-start').addEventListener('click', (e) => {
+      if (e.target === clickStart || e.target.tagName === 'P') {
+        iframe.src = servers[currentServer];
+        clickStart.style.display = 'none';
+      }
+    });
+
+    // Server tabs
+    document.querySelectorAll('.server-tab').forEach(tab => {
+      tab.addEventListener('click', () => loadServer(tab.dataset.server));
+    });
+
+    // Fullscreen
+    document.getElementById('fullscreen-btn').addEventListener('click', () => {
+      const wrap = document.getElementById('player-frame-wrap');
+      if (!document.fullscreenElement) {
+        wrap.requestFullscreen?.() || wrap.webkitRequestFullscreen?.();
+        document.getElementById('fullscreen-btn').innerHTML = '<i class="fas fa-compress"></i>';
+      } else {
+        document.exitFullscreen?.() || document.webkitExitFullscreen?.();
+        document.getElementById('fullscreen-btn').innerHTML = '<i class="fas fa-expand"></i>';
+      }
+    });
+
+    // Theater mode (toggle topbar)
+    let theaterMode = false;
+    document.getElementById('theater-btn').addEventListener('click', () => {
+      theaterMode = !theaterMode;
+      document.getElementById('player-topbar').style.display = theaterMode ? 'none' : '';
+      document.getElementById('theater-btn').classList.toggle('active', theaterMode);
+    });
+
+    // Subtitle toggle indicator
+    document.getElementById('subtitle-btn').addEventListener('click', () => {
+      document.getElementById('subtitle-btn').classList.toggle('active');
+    });
+  </script>
+</body>
+</html>

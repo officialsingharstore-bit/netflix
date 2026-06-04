@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile | CinemaX</title>
+  <meta name="description" content="Manage your CinemaX profile and viewing preferences.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+</head>
+<body class="profile-page">
+  <main>
+    <div class="profile-hero">
+      <div class="profile-avatar-wrap">
+        <img src="https://i.pravatar.cc/200?img=11" alt="Profile Avatar" class="profile-avatar" id="profile-avatar">
+        <div class="profile-avatar-edit" title="Change photo"><i class="fas fa-camera"></i></div>
+      </div>
+      <div>
+        <h1 class="profile-name" id="profile-name">Guest User</h1>
+        <p class="profile-email" id="profile-email">Sign in to access your profile</p>
+        <div class="profile-stats">
+          <div class="stat-item">
+            <div class="stat-value" id="stat-watchlist">0</div>
+            <div class="stat-label">Watchlist</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" id="stat-favorites">0</div>
+            <div class="stat-label">Favorites</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" id="stat-reviews">0</div>
+            <div class="stat-label">Reviews</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-content">
+      <nav class="profile-nav profile-sidebar">
+        <a href="#" class="active" data-section="activity"><i class="fas fa-clock" style="width:18px"></i> Activity</a>
+        <a href="#" data-section="watchlist"><i class="fas fa-bookmark" style="width:18px"></i> My List</a>
+        <a href="#" data-section="favorites"><i class="fas fa-heart" style="width:18px"></i> Favourites</a>
+        <a href="#" data-section="reviews"><i class="fas fa-star" style="width:18px"></i> Reviews</a>
+        <a href="settings.html"><i class="fas fa-gear" style="width:18px"></i> Settings</a>
+      </nav>
+
+      <div class="profile-main-content">
+        <!-- Activity -->
+        <section id="section-activity">
+          <h2 style="font-size:1.2rem;margin-bottom:var(--sp-5)">Recent Activity</h2>
+          <div style="display:grid;gap:var(--sp-3);" id="activity-list">
+            <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--sp-5);display:flex;align-items:center;gap:var(--sp-4);">
+              <div style="width:40px;height:40px;border-radius:50%;background:rgba(229,9,20,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <i class="fas fa-user" style="color:var(--primary)"></i>
+              </div>
+              <div>
+                <div style="font-weight:600;font-size:.9rem">Sign in to see your activity</div>
+                <div style="color:var(--text-secondary);font-size:.78rem;margin-top:3px">Your watch history and actions will appear here</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:var(--sp-8)">
+            <h2 style="font-size:1.2rem;margin-bottom:var(--sp-5)">Continue Watching</h2>
+            <div class="content-grid" id="continue-watching-grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr))">
+              <div class="empty-state" style="padding:var(--sp-8) 0;grid-column:1/-1">
+                <i class="fas fa-play-circle"></i>
+                <p>Nothing to continue yet. Start watching!</p>
+                <a href="movies.html" class="btn btn-primary btn-sm" style="margin-top:var(--sp-4)">Browse Movies</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Watchlist -->
+        <section id="section-watchlist" style="display:none">
+          <h2 style="font-size:1.2rem;margin-bottom:var(--sp-5)">My Watchlist</h2>
+          <div class="content-grid" id="profile-watchlist-grid">
+            <div class="empty-state" style="grid-column:1/-1">
+              <i class="fas fa-bookmark"></i>
+              <p>Your watchlist is empty.</p>
+              <a href="movies.html" class="btn btn-primary btn-sm" style="margin-top:var(--sp-4)">Find Movies</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Favorites -->
+        <section id="section-favorites" style="display:none">
+          <h2 style="font-size:1.2rem;margin-bottom:var(--sp-5)">My Favourites</h2>
+          <div class="content-grid" id="profile-favorites-grid">
+            <div class="empty-state" style="grid-column:1/-1">
+              <i class="fas fa-heart"></i>
+              <p>No favourites yet.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Reviews -->
+        <section id="section-reviews" style="display:none">
+          <h2 style="font-size:1.2rem;margin-bottom:var(--sp-5)">My Reviews</h2>
+          <div id="profile-reviews-list">
+            <div class="empty-state">
+              <i class="fas fa-star"></i>
+              <p>You haven't written any reviews yet.</p>
+              <a href="trending.html" class="btn btn-primary btn-sm" style="margin-top:var(--sp-4)">Find Something to Review</a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initLayout } from './js/components/layout.js';
+    import { auth, onAuthStateChanged } from './js/api/firebase.js';
+    initLayout();
+
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        document.getElementById('profile-name').textContent  = user.displayName || 'User';
+        document.getElementById('profile-email').textContent = user.email || '';
+        if (user.photoURL) document.getElementById('profile-avatar').src = user.photoURL;
+      }
+    });
+
+    // Tab switching
+    document.querySelectorAll('.profile-nav a[data-section]').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const sec = link.dataset.section;
+        document.querySelectorAll('.profile-nav a').forEach(a => a.classList.remove('active'));
+        link.classList.add('active');
+        document.querySelectorAll('[id^="section-"]').forEach(s => s.style.display = 'none');
+        const target = document.getElementById(`section-${sec}`);
+        if(target) target.style.display = '';
+      });
+    });
+  </script>
+</body>
+</html>

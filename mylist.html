@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My List | CinemaX</title>
+  <meta name="description" content="Your personal watchlist and favourites on CinemaX.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+</head>
+<body class="list-page">
+  <main>
+    <div class="page-header">
+      <h1>My List</h1>
+      <p style="color:var(--text-secondary);margin-top:var(--sp-2)">Your saved titles in one place.</p>
+    </div>
+
+    <!-- Trakt Banner -->
+    <div class="trakt-banner" id="trakt-banner">
+      <div class="trakt-banner-text">
+        <h3><i class="fas fa-rotate" style="margin-right:.5rem"></i>Sync with Trakt.tv</h3>
+        <p>Keep your watchlist and history in sync across all your devices automatically.</p>
+      </div>
+      <button class="btn btn-primary" id="connect-trakt-btn">
+        Connect Trakt
+      </button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="trending-tabs" style="padding:0 var(--page-x) var(--sp-6);">
+      <button class="trending-tab active" data-list="watchlist">Watchlist</button>
+      <button class="trending-tab" data-list="favorites">Favourites</button>
+    </div>
+
+    <!-- Watchlist -->
+    <section id="watchlist-section" style="padding:0 var(--page-x);">
+      <div class="content-grid" id="watchlist-grid" style="margin-bottom:var(--sp-8);"></div>
+    </section>
+
+    <!-- Favourites -->
+    <section id="favorites-section" style="padding:0 var(--page-x);display:none;">
+      <div class="content-grid" id="favorites-grid" style="margin-bottom:var(--sp-8);"></div>
+    </section>
+  </main>
+
+  <script type="module" src="js/pages/mylist.js"></script>
+</body>
+</html>

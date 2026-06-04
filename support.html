@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help & Support | CinemaX</title>
+  <meta name="description" content="Get help with CinemaX — FAQ, contact support, and troubleshooting.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+</head>
+<body class="support-page">
+  <main>
+    <div class="page-hero" id="faq" style="text-align:center;background:linear-gradient(135deg,rgba(229,9,20,.08) 0%,transparent 60%)">
+      <h1><i class="fas fa-circle-question" style="color:var(--primary);margin-right:.5rem"></i>Help &amp; Support</h1>
+      <p>Everything you need to know about CinemaX — answered.</p>
+    </div>
+
+    <!-- Quick Links -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--sp-4);padding:0 var(--page-x) var(--sp-10);max-width:900px;margin:0 auto;">
+      <a href="#faq" class="btn btn-secondary" style="justify-content:center;flex-direction:column;height:90px;gap:var(--sp-2);text-align:center;">
+        <i class="fas fa-question-circle" style="font-size:1.5rem;color:var(--primary)"></i>
+        <span style="font-size:.85rem">FAQ</span>
+      </a>
+      <a href="#contact" class="btn btn-secondary" style="justify-content:center;flex-direction:column;height:90px;gap:var(--sp-2);text-align:center;">
+        <i class="fas fa-envelope" style="font-size:1.5rem;color:var(--primary)"></i>
+        <span style="font-size:.85rem">Contact Us</span>
+      </a>
+      <a href="settings.html" class="btn btn-secondary" style="justify-content:center;flex-direction:column;height:90px;gap:var(--sp-2);text-align:center;">
+        <i class="fas fa-gear" style="font-size:1.5rem;color:var(--primary)"></i>
+        <span style="font-size:.85rem">Account Settings</span>
+      </a>
+      <a href="privacy.html" class="btn btn-secondary" style="justify-content:center;flex-direction:column;height:90px;gap:var(--sp-2);text-align:center;">
+        <i class="fas fa-shield" style="font-size:1.5rem;color:var(--primary)"></i>
+        <span style="font-size:.85rem">Privacy Policy</span>
+      </a>
+    </div>
+
+    <!-- FAQ -->
+    <div style="padding:0 var(--page-x) var(--sp-12);max-width:900px;margin:0 auto;">
+      <h2 style="font-size:1.5rem;margin-bottom:var(--sp-6)">Frequently Asked Questions</h2>
+      <div class="faq-list" style="max-width:100%;padding:0;">
+
+        <div class="faq-item">
+          <button class="faq-question">Is CinemaX free to use? <i class="fas fa-plus"></i></button>
+          <div class="faq-answer">CinemaX is a streaming discovery platform that is completely free to use. We provide links and metadata from TMDB and Trakt. Some content may be available through third-party embedding services.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">Why is some content not playing? <i class="fas fa-plus"></i></button>
+          <div class="faq-answer">Video content is served through third-party embed servers (VidSrc, etc.). If one server doesn't work, we provide multiple server options. Try switching servers using the Server 1, Server 2, Server 3 buttons in the player.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">Do I need an account to use CinemaX? <i class="fas fa-plus"></i></button>
+          <div class="faq-answer">You can browse all content without an account. However, to save titles to your watchlist, mark favourites, write reviews, and sync with Trakt, you'll need to sign in with your Google account.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">How do I add a title to my watchlist? <i class="fas fa-plus"></i></button>
+          <div class="faq-answer">Open the detail page of any movie or TV show and click the "My List" (+ icon) button. You must be signed in for this to work. You can view your saved titles on the My List page.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">What is Trakt integration? <i class="fas fa-plus"></i></button>
+          <div class="faq-answer">Trakt.tv is a free service that tracks what you watch. By connecting your Trakt account on the My List page, your watchlist and watch history will sync automatically across all your devices and apps.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">Can I watch on mobile? <i class="fas fa-plus"></i></button>
+          <div class="faq-answer">Yes! CinemaX is fully optimised for mobile devices. The site is responsive and works on all screen sizes from 320px upwards. On mobile you'll see a bottom navigation bar for easy access to all sections.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">How do I change video quality? <i class="fas fa-plus"></i></button>
+          <div class="faq-answer">In the video player, use the quality dropdown in the top bar to select from Auto, 1080p, 720p, 480p, or 360p. The actual quality depends on what the embed server provides.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">Where does the content data come from? <i class="fas fa-plus"></i></button>
+          <div class="faq-answer">All movie and TV show metadata (titles, posters, descriptions, ratings, cast) is sourced from The Movie Database (TMDB) API. Watchlist sync is provided by Trakt.tv. CinemaX does not host or stream any video content directly.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">How do I enable subtitles? <i class="fas fa-plus"></i></button>
+          <div class="faq-answer">In the video player, click the CC (closed captions) icon in the top bar. Subtitle availability depends on the embed server. You can also set a default subtitle language in your Account Settings → Playback.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">Is my data private? <i class="fas fa-plus"></i></button>
+          <div class="faq-answer">We take privacy seriously. Your account data is stored securely on Firebase. We do not sell your personal information. You can review our full Privacy Policy and request deletion of your data at any time.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div id="contact" style="padding:0 var(--page-x) var(--sp-16);max-width:700px;margin:0 auto;">
+      <h2 style="font-size:1.5rem;margin-bottom:var(--sp-2)">Contact Support</h2>
+      <p style="color:var(--text-secondary);margin-bottom:var(--sp-6);font-size:.9rem">Can't find an answer? Send us a message and we'll get back to you within 24 hours.</p>
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-4);">
+          <div class="form-group">
+            <label class="form-label" for="contact-name">Name</label>
+            <input type="text" id="contact-name" class="form-input" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="contact-email">Email</label>
+            <input type="email" id="contact-email" class="form-input" placeholder="your@email.com" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="contact-subject">Subject</label>
+          <select id="contact-subject" class="form-input filter-select" style="border-radius:var(--r-md);padding:.75rem 2rem .75rem 1rem">
+            <option>Video Playback Issue</option>
+            <option>Account / Login Problem</option>
+            <option>Missing Content</option>
+            <option>Technical Bug</option>
+            <option>General Question</option>
+            <option>DMCA / Copyright</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="contact-message">Message</label>
+          <textarea id="contact-message" class="form-input form-textarea" placeholder="Describe your issue in detail…" required style="min-height:150px"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-paper-plane"></i> Send Message
+        </button>
+        <div id="form-success" style="display:none;margin-top:var(--sp-4);background:rgba(70,211,105,.1);border:1px solid rgba(70,211,105,.3);border-radius:var(--r-lg);padding:var(--sp-4);color:var(--success);">
+          <i class="fas fa-circle-check"></i> Your message has been sent. We'll reply within 24 hours.
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initLayout } from './js/components/layout.js';
+    initLayout();
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const item = btn.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+        if(!isOpen) item.classList.add('open');
+      });
+    });
+  </script>
+  <script>
+    function handleSubmit(e) {
+      e.preventDefault();
+      document.getElementById('form-success').style.display = 'block';
+      e.target.reset();
+    }
+  </script>
+</body>
+</html>
